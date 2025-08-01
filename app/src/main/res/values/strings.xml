@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Countries</string>
+    <string name="loading_message">Loading countries...</string>
+    <string name="error_network">Network error. Please check your internet connection.</string>
+    <string name="error_server">Server error. Please try again later.</string>
+    <string name="error_timeout">Request timeout. Please try again.</string>
+    <string name="error_unknown">An unknown error occurred.</string>
+    <string name="error_empty_response">No countries found.</string>
+    <string name="retry_button">Retry</string>
+    <string name="country_code_label">Code: %s</string>
+    <string name="country_region_label">%s, %s</string>
+    <string name="country_capital_label">Capital: %s</string>
+</resources>
