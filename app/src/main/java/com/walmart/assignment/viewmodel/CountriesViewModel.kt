@@ -17,23 +17,27 @@ class CountriesViewModel(
     val uiState: LiveData<UIState<List<Country>>> = _uiState
 
     fun loadCountries() {
-        _uiState.value = UIState.Loading
-        
+        if (_uiState.value == null) {
+            _uiState.value = UIState.Loading
+        }
+
         viewModelScope.launch {
-            repository.getCountries()
-                .onSuccess { countries ->
-                    _uiState.value = UIState.Success(countries)
-                }
-                .onFailure { exception ->
-                    val errorMessage = when (exception.message) {
-                        "Empty response" -> "No countries found."
-                        "Server error" -> "Server error. Please try again later."
-                        "Timeout" -> "Request timeout. Please try again."
-                        "Network error" -> "Network error. Please check your internet connection."
-                        else -> "An unknown error occurred."
+            if (_uiState.value == UIState.Loading) {
+                repository.getCountries()
+                    .onSuccess { countries ->
+                        _uiState.value = UIState.Success(countries)
                     }
-                    _uiState.value = UIState.Error(errorMessage)
-                }
+                    .onFailure { exception ->
+                        val errorMessage = when (exception.message) {
+                            "Empty response" -> "No countries found."
+                            "Server error" -> "Server error. Please try again later."
+                            "Timeout" -> "Request timeout. Please try again."
+                            "Network error" -> "Network error. Please check your internet connection."
+                            else -> "An unknown error occurred."
+                        }
+                        _uiState.value = UIState.Error(errorMessage)
+                    }
+            }
         }
     }
 } 
